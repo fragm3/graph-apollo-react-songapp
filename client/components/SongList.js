@@ -7,12 +7,15 @@ import { Link } from 'react-router';
 class SongList extends Component{
   onSongDelete(id){
     this.props.mutate({variables: {id}})
+    .then(() => this.props.data.refetch())
   }
   renderSong(){
       return this.props.data.songs.map(({ id, title }) => {
         return(
       <li key ={id} className="collection-item">
+        <Link to = {`/song/${id}`}>
         {title}
+      </Link>
         <i
           className="material-icons"
           onClick={() => this.onSongDelete(id)}
@@ -22,7 +25,6 @@ class SongList extends Component{
     )
     })
   }
-
   render(){
     if(this.props.data.loading){ return <div>Loading....</div>}
 
@@ -40,7 +42,6 @@ class SongList extends Component{
     )
   }
 }
-
 const mutation = gql `
   mutation DeleteSong($id: ID){
     deleteSong(id: $id){
@@ -57,7 +58,6 @@ const query = gql`
     }
   }
 `;
-
 export default graphql(mutation)(
   graphql(query)(SongList)
 );
