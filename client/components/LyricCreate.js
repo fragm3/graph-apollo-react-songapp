@@ -39,6 +39,7 @@ addLyricToSong(content: $content, songId: $songId){
   lyrics{
     id
     content
+    likes
     }
   }
 }
